@@ -38,3 +38,21 @@ db/migrations/up: confirm
 db/migrations/down: confirm
 	@echo 'Running ${n} down migrations'
 	migrate -path ./migrations -database ${PUBLIC_DB_URL} down ${n}
+
+## db/migrations/version: print the current database version
+.PHONY: db/migrations/version
+db/migrations/version:
+	@echo 'Getting the current database version...'
+	migrate -path ./migrations -database ${PUBLIC_DB_URL} version
+
+## db/migrations/drop: drop the database
+.PHONY: db/migrations/drop
+db/migrations/drop: confirm
+	@echo 'Dropping the database...'
+	migrate -path ./migrations -database ${PUBLIC_DB_URL} drop
+
+## db/migrations/force n=$1: force the database to the latest version
+.PHONY: db/migrations/force
+db/migrations/force: confirm
+	@echo 'Forcing the database to the ${n} version...'
+	migrate -path ./migrations -database ${PUBLIC_DB_URL} force ${n}
