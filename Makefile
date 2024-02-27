@@ -56,3 +56,8 @@ db/migrations/drop: confirm
 db/migrations/force: confirm
 	@echo 'Forcing the database to the ${n} version...'
 	migrate -path ./migrations -database ${PUBLIC_DB_URL} force ${n}
+
+## auth/run: run the auth service
+.PHONY: auth/run
+auth/run:
+	cd ./auth && DATABASE_URL=${PUBLIC_DB_URL} go run ./cmd/api
