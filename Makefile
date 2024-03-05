@@ -60,4 +60,4 @@ db/migrations/force: confirm
 ## auth/run: run the auth service
 .PHONY: auth/run
 auth/run:
-	cd ./auth && DATABASE_URL=${PUBLIC_DB_URL} go run ./cmd/api
+	cd ./auth && DATABASE_URL=${PUBLIC_DB_URL} JWT_SECRET=${JWT_SECRET} ~/go/bin/air

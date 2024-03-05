@@ -16,6 +16,9 @@ import (
 type config struct {
 	port int
 	env  string
+	jwt  struct {
+		secret string
+	}
 }
 
 type application struct {
@@ -32,6 +35,14 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|production)")
 	flag.Parse()
+
+	s, varErr := os.LookupEnv("JWT_SECRET")
+	if !varErr {
+		fmt.Println("JWT_SECRET not set")
+		os.Exit(1)
+	}
+
+	cfg.jwt.secret = s
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
@@ -53,6 +64,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/v1/healthcheck", app.healthcheckHandler)
 	mux.HandleFunc("/v1/user", app.getUser)
+	mux.HandleFunc("/v1/auth/token", app.createAuthTokenHandler)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),
