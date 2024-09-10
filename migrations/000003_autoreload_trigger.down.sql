@@ -1,0 +1,5 @@
+BEGIN;
+
+DROP EVENT TRIGGER IF EXISTS pgrst_watch;
+
+COMMIT;;
