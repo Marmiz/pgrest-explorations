@@ -13,13 +13,13 @@ confirm:
 ## run: run the whole project as a docker compose command
 .PHONY: run
 run:
-	docker-compose up
+	docker compose up
 
 ## db/pslq: connect to the database
 .PHONY: db/psql
 db/psql:
 	@echo 'Connecting to the database...'
-	docker exec -it pgrest-db-1 psql ${DB_DSN}
+	docker exec -it pg-db psql ${DB_DSN}
 
 ## db/migrations/new name=$1: create a new database migration
 .PHONY: db/migrations/new

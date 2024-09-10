@@ -45,7 +45,7 @@ func (app *application) createAuthTokenHandler(w http.ResponseWriter, r *http.Re
 
 	dbUser, err := app.queries.GetUser(r.Context(), input.Email)
 	if err != nil {
-		app.logger.Info("failed to get user", "error", err)
+		app.logger.Info("failed to get user", "user", input.Email, "error", err)
 		if errors.Is(err, pgx.ErrNoRows) {
 			http.Error(w, "Not found", http.StatusNotFound)
 			return
